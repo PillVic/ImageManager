@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>837</width>
-    <height>598</height>
+    <width>522</width>
+    <height>791</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,34 @@
      <rect>
       <x>-10</x>
       <y>-50</y>
-      <width>851</width>
-      <height>631</height>
+      <width>531</width>
+      <height>571</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>-10</y>
+      <width>521</width>
+      <height>541</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>lena.jpg</pixmap>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>520</y>
+      <width>521</width>
+      <height>221</height>
      </rect>
     </property>
    </widget>
@@ -30,7 +56,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>837</width>
+     <width>522</width>
      <height>27</height>
     </rect>
    </property>
