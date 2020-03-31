@@ -1,16 +1,17 @@
 import sys
+from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from MainWindow import *
+from PyQt5.uic import loadUi
 
+class ImageManager(QMainWindow):
+    def __init__(self):
+        super(ImageManager, self).__init__()
+        loadUi('MainWindow.ui', self)
+        self.statusBar().showMessage("Ready to Read Image")
+        self.ActionExit = self.findChild()
 
-class MyWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self, parent=None):
-        super(MyWindow, self).__init__(parent)
-        self.setupUi(self)
-
-
-if __name__ == '__main__':
+if __name__=="__main__":
     app = QApplication(sys.argv)
-    myWin = MyWindow()
-    myWin.show()
+    widget = ImageManager()
+    widget.show()
     sys.exit(app.exec_())

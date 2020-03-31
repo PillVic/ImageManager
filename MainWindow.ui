@@ -6,30 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>522</width>
-    <height>791</height>
+    <width>474</width>
+    <height>762</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Image Manager</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGraphicsView" name="ImageShower">
-    <property name="geometry">
-     <rect>
-      <x>-10</x>
-      <y>-50</y>
-      <width>531</width>
-      <height>571</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>-10</y>
-      <width>521</width>
+      <width>471</width>
       <height>541</height>
      </rect>
     </property>
@@ -45,8 +35,8 @@
      <rect>
       <x>0</x>
       <y>520</y>
-      <width>521</width>
-      <height>221</height>
+      <width>471</width>
+      <height>192</height>
      </rect>
     </property>
    </widget>
@@ -56,7 +46,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>522</width>
+     <width>474</width>
      <height>27</height>
     </rect>
    </property>
@@ -68,6 +58,7 @@
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
     <addaction name="actionClose"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -81,8 +72,20 @@
     <property name="title">
      <string>Algorithm</string>
     </property>
+    <widget class="QMenu" name="menuOCR">
+     <property name="title">
+      <string>OCR</string>
+     </property>
+     <addaction name="separator"/>
+     <addaction name="separator"/>
+     <addaction name="separator"/>
+     <addaction name="separator"/>
+     <addaction name="actionHandle"/>
+     <addaction name="actionAutomatic"/>
+    </widget>
     <addaction name="actionAffine"/>
     <addaction name="actionEdge_Detect"/>
+    <addaction name="menuOCR"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -132,6 +135,21 @@
   <action name="actionSelect">
    <property name="text">
     <string>Select</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionHandle">
+   <property name="text">
+    <string>Handle</string>
+   </property>
+  </action>
+  <action name="actionAutomatic">
+   <property name="text">
+    <string>Automatic</string>
    </property>
   </action>
  </widget>
