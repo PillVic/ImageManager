@@ -6,39 +6,94 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>474</width>
-    <height>762</height>
+    <width>515</width>
+    <height>830</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Image Manager</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
+   <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-10</y>
-      <width>471</width>
-      <height>541</height>
+      <y>0</y>
+      <width>514</width>
+      <height>711</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>lena.jpg</pixmap>
-    </property>
-   </widget>
-   <widget class="QTextBrowser" name="textBrowser">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>520</y>
-      <width>471</width>
-      <height>192</height>
-     </rect>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_8">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>lena.jpg</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>rotate horizontal</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>rorate vertical</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <item>
+        <widget class="QComboBox" name="comboBox">
+         <property name="toolTipDuration">
+          <number>-1</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>sobel</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>canny</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>edge detect</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>switch to gray</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -46,7 +101,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>474</width>
+     <width>515</width>
      <height>27</height>
     </rect>
    </property>
@@ -83,9 +138,10 @@
      <addaction name="actionHandle"/>
      <addaction name="actionAutomatic"/>
     </widget>
-    <addaction name="actionAffine"/>
+    <addaction name="separator"/>
     <addaction name="actionEdge_Detect"/>
     <addaction name="menuOCR"/>
+    <addaction name="actionGray_Scale"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -150,6 +206,11 @@
   <action name="actionAutomatic">
    <property name="text">
     <string>Automatic</string>
+   </property>
+  </action>
+  <action name="actionGray_Scale">
+   <property name="text">
+    <string>Gray Scale</string>
    </property>
   </action>
  </widget>
