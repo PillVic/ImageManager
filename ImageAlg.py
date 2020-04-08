@@ -1,4 +1,5 @@
-import cv2
+from cv2 import cv2 as cv2
+from PyQt5.QtGui import QPixmap, QImage
 
 def showImage(img, title='Image'):
     cv2.namedWindow(title)
@@ -9,6 +10,14 @@ def showImage(img, title='Image'):
 def color2gray(img):
     return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+def ostu(img, bottom=127, head=255):
+    img = color2gray(img)
+    res, thresh1 = cv2.threshold(img, bottom, head, cv2.THRESH_BINARY)
+    return thresh1
+
+def drawRectangle(img, point1, point2, color=(0,0,0)):
+    #to show the cut image content
+    return cv2.rectangle(img, point1, point2, color, 3)
 
 def CounterClockwiseRotate(img, angle):
     #roate
@@ -27,8 +36,10 @@ class Image():
     def __init__(self, path):
         self.__img = cv2.imread(path)
         self.__path = path
-    def save(self):
+    def Save(self):
         cv2.imwrite(self.__path, self.__img)
+    def SaveAs(self, newPath):
+        cv2.imwrite(newPath, self.__img)
     def getWidth(self):
         return self.__img.shape[0]
     def getHeight(self):
@@ -37,9 +48,15 @@ class Image():
         return self.__img
     def setImg(self, transform):
         self.__img = transform(self.__img)
+    def getPixmap(self):
+        height, width, bytesPerComponent = self.__img.shape
+        bytesPerline = width*3
+        cv2.cvtColor(self.__img, cv2.COLOR_BGR2RGB, self.__img)
+        qimg = QImage(self.__img.data, width, height, bytesPerline, QImage.Format_RGB888)
+        return QPixmap.fromImage(qimg)
 
 if __name__ == "__main__":
     img = Image('lena.jpg')
-    img.setImg(lambda x:CounterClockwiseRotate(x, 15)) 
-    img.setImg(CannyEdge)
+    #img.setImg(lambda x: ostu(x, 127, 255))
+    img.setImg(lambda x:drawRectangle(x, (60,73), (451,275)))
     showImage(img.getImg())

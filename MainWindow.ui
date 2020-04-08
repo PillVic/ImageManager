@@ -25,7 +25,7 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_8">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="imageLable">
        <property name="text">
         <string/>
        </property>
@@ -123,29 +123,8 @@
     <addaction name="actionUndo"/>
     <addaction name="actionSelect"/>
    </widget>
-   <widget class="QMenu" name="menuAlgorithm">
-    <property name="title">
-     <string>Algorithm</string>
-    </property>
-    <widget class="QMenu" name="menuOCR">
-     <property name="title">
-      <string>OCR</string>
-     </property>
-     <addaction name="separator"/>
-     <addaction name="separator"/>
-     <addaction name="separator"/>
-     <addaction name="separator"/>
-     <addaction name="actionHandle"/>
-     <addaction name="actionAutomatic"/>
-    </widget>
-    <addaction name="separator"/>
-    <addaction name="actionEdge_Detect"/>
-    <addaction name="menuOCR"/>
-    <addaction name="actionGray_Scale"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuAlgorithm"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
