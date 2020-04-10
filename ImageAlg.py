@@ -15,7 +15,7 @@ def ostu(img, bottom=127, head=255):
     res, thresh1 = cv2.threshold(img, bottom, head, cv2.THRESH_BINARY)
     return thresh1
 
-def drawRectangle(img, point1, point2, color=(0,0,0)):
+def drawRectangle(img, point1, point2, color=(255,255,255)):
     #to show the cut image content
     return cv2.rectangle(img, point1, point2, color, 3)
 
@@ -25,6 +25,9 @@ def CounterClockwiseRotate(img, angle):
     rows, cols = img.shape[:2]
     m = cv2.getRotationMatrix2D(((cols)/2, (rows)/2), angle, 1)
     return cv2.warpAffine(img,m, (rows, cols))
+
+def cutImage(img, point1, point2):
+    return img[point1[1]:point2[1], point1[0]:point2[0]]
 
 def CannyEdge(img):
     img = color2gray(img)
@@ -58,5 +61,8 @@ class Image():
 if __name__ == "__main__":
     img = Image('lena.jpg')
     #img.setImg(lambda x: ostu(x, 127, 255))
-    img.setImg(lambda x:drawRectangle(x, (60,73), (451,275)))
-    showImage(img.getImg())
+    img.setImg(lambda x:drawRectangle(x, (60,73), (451,275), (255,255,255)))
+    image = img.getImg()
+    neoimage = cutImage(image, (60,73), (451,275))
+    showImage(neoimage)
+    
