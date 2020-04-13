@@ -16,7 +16,7 @@ def ostu(img, bottom=127, head=255):
     return thresh1
 
 def drawRectangle(img, point1, point2, color=(255,255,255)):
-    #to show the cut image content
+    #to show the selected image content
     return cv2.rectangle(img, point1, point2, color, 3)
 
 def CounterClockwiseRotate(img, angle):
@@ -26,8 +26,8 @@ def CounterClockwiseRotate(img, angle):
     m = cv2.getRotationMatrix2D(((cols)/2, (rows)/2), angle, 1)
     return cv2.warpAffine(img,m, (rows, cols))
 
-def cutImage(img, point1, point2):
-    return img[point1[1]:point2[1], point1[0]:point2[0]]
+def cutImage(img, leftUpPoint, rightDownPoint):
+    return img[leftUpPoint[1]:rightDownPoint[1], leftUpPoint[0]:rightDownPoint[0]]
 
 def CannyEdge(img):
     img = color2gray(img)
@@ -39,10 +39,12 @@ class Image():
     def __init__(self, path):
         self.__img = cv2.imread(path)
         self.__path = path
+        self.__history = []
     def Save(self):
         cv2.imwrite(self.__path, self.__img)
     def SaveAs(self, newPath):
         cv2.imwrite(newPath, self.__img)
+        self.__path = newPath
     def getWidth(self):
         return self.__img.shape[0]
     def getHeight(self):
@@ -50,12 +52,17 @@ class Image():
     def getImg(self):
         return self.__img
     def setImg(self, transform):
+        self.__history.append(self.__img)
         self.__img = transform(self.__img)
+    def undoImg(self):
+        if len(self.__history) != 0:
+            self.__img = self.__history[len(self.__history)-1]
+            self.__history.pop()
     def getPixmap(self):
         height, width, bytesPerComponent = self.__img.shape
         bytesPerline = width*3
-        cv2.cvtColor(self.__img, cv2.COLOR_BGR2RGB, self.__img)
-        qimg = QImage(self.__img.data, width, height, bytesPerline, QImage.Format_RGB888)
+        neoImage = cv2.cvtColor(self.__img, cv2.COLOR_BGR2RGB)
+        qimg = QImage(neoImage.data, width, height, bytesPerline, QImage.Format_RGB888)
         return QPixmap.fromImage(qimg)
 
 if __name__ == "__main__":
@@ -64,5 +71,7 @@ if __name__ == "__main__":
     img.setImg(lambda x:drawRectangle(x, (60,73), (451,275), (255,255,255)))
     image = img.getImg()
     neoimage = cutImage(image, (60,73), (451,275))
-    showImage(neoimage)
+    img.SaveAs("SelectedImage.jpg")
+    img.setImg(lambda x:neoimage)
+    img.SaveAs("cutImage.jpg")
     

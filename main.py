@@ -1,20 +1,58 @@
 import sys
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QLabel
+from PyQt5.QtCore import pyqtSlot, QTimer
+from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QImage
 from ImageAlg import *
+
+def logger():
+    print("Signal print")
 
 class ImageManager(QMainWindow):
     def __init__(self):
         super(ImageManager, self).__init__()
         loadUi('MainWindow.ui', self)
+        #init UI
+        #load Image
         fileName = QFileDialog.getOpenFileName(self, "Choose File", "")[0]
         self.statusBar().showMessage("Open File : "+fileName)
-        self.__image = Image(fileName)
+        self.image = Image(fileName)
         self.imageLable = self.findChild(QLabel, "imageLable")
-        self.imageLable.setPixmap(self.__image.getPixmap())
+        self.imageLable.setPixmap(self.image.getPixmap())
         self.imageLable.setScaledContents(True)
+        #set fresh task
+        self.timer = QTimer(self)
+        self.timer.setInterval(100) #100ms 
+        self.timer.start()
+        self.timer.timeout.connect(self.__fresh)
+        
+        #File Menu
+        self.fileOpen = self.findChild(QAction, "fileOpen")
+        self.fileOpen.triggered.connect(self.__open)
+
+        self.fileSave = self.findChild(QAction, "actionSave")
+        self.fileSave.triggered.connect(self.image.Save)
+
+        self.fileSaveAs = self.findChild(QAction, "actionSaveAs")
+        self.fileSaveAs.triggered.connect(self.__SaveAs)
+
+        self.actionExit = self.findChild(QAction, "actionExit")
+        self.actionExit.triggered.connect(sys.exit)
+        #Edit Menu
+        self.actionUndo = self.findChild(QAction, "actionUndo")
+        self.actionUndo.triggered.connect(self.image.undoImg)
+
+    def __fresh(self):
+        self.imageLable.setPixmap(self.image.getPixmap())
+    def __open(self):
+        fileName = QFileDialog.getOpenFileName(self, "Choose File", "")[0]
+        if fileName != "":
+            self.image = Image(fileName)
+    def __SaveAs(self):
+        fileName = QFileDialog.getOpenFileName(self, "Choose File", "")[0]
+        if fileName != "":
+            self.image.SaveAs(fileName)
+
 
 
 if __name__=="__main__":
