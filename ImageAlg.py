@@ -8,6 +8,8 @@ def showImage(img, title='Image'):
     cv2.destroyAllWindows()
 
 def color2gray(img):
+    if len(img.shape) == 2:
+        return img
     return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 def ostu(img, bottom=127, head=255):
@@ -29,10 +31,10 @@ def CounterClockwiseRotate(img, angle):
 def cutImage(img, leftUpPoint, rightDownPoint):
     return img[leftUpPoint[1]:rightDownPoint[1], leftUpPoint[0]:rightDownPoint[0]]
 
-def CannyEdge(img):
+def CannyEdge(img, minVal = 50, maxVal=150):
     img = color2gray(img)
     img = cv2.GaussianBlur(img, (3,3), 0)
-    canny = cv2.Canny(img, 50, 150)
+    canny = cv2.Canny(img, minVal, maxVal)
     return canny
 
 class Image():
@@ -40,6 +42,7 @@ class Image():
         self.__img = cv2.imread(path)
         self.__path = path
         self.__history = []
+        self.count = 1
     def Save(self):
         cv2.imwrite(self.__path, self.__img)
     def SaveAs(self, newPath):
@@ -55,11 +58,18 @@ class Image():
         self.__history.append(self.__img)
         self.__img = transform(self.__img)
     def undoImg(self):
+        print("有生之年")
+        self.count  +=1
         if len(self.__history) != 0:
             self.__img = self.__history[len(self.__history)-1]
             self.__history.pop()
+            print("爷的青春回来了"+ str(self.count))
+        else:
+            print("爷的青春结束了"+str(self.count))
     def getPixmap(self):
-        height, width, bytesPerComponent = self.__img.shape
+        #height, width, bytesPerComponent = self.__img.shape
+        width = self.__img.shape[1]
+        height = self.__img.shape[0]
         bytesPerline = width*3
         neoImage = cv2.cvtColor(self.__img, cv2.COLOR_BGR2RGB)
         qimg = QImage(neoImage.data, width, height, bytesPerline, QImage.Format_RGB888)

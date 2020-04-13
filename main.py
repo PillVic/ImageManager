@@ -1,12 +1,9 @@
 import sys
 from PyQt5.QtCore import pyqtSlot, QTimer
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QAction, QFileDialog, QLabel
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QImage
 from ImageAlg import *
-
-def logger():
-    print("Signal print")
 
 class ImageManager(QMainWindow):
     def __init__(self):
@@ -15,6 +12,8 @@ class ImageManager(QMainWindow):
         #init UI
         #load Image
         fileName = QFileDialog.getOpenFileName(self, "Choose File", "")[0]
+        if fileName == "":
+            sys.exit()
         self.statusBar().showMessage("Open File : "+fileName)
         self.image = Image(fileName)
         self.imageLable = self.findChild(QLabel, "imageLable")
@@ -42,6 +41,20 @@ class ImageManager(QMainWindow):
         self.actionUndo = self.findChild(QAction, "actionUndo")
         self.actionUndo.triggered.connect(self.image.undoImg)
 
+        #button set
+        self.undoButton = self.findChild(QPushButton, "undoButton")
+        self.undoButton.clicked.connect(self.image.undoImg)
+
+        self.selectButton = self.findChild(QPushButton, "selectButton")
+        #fixme
+
+        self.grayButton = self.findChild(QPushButton, "grayButton")
+        self.grayButton.clicked.connect(lambda x:self.image.setImg(color2gray))
+
+        self.edgeDecButton = self.findChild(QPushButton, "edgeDecButton")
+        self.edgeDecButton.clicked.connect(lambda x:self.image.setImg(CannyEdge))
+
+
     def __fresh(self):
         self.imageLable.setPixmap(self.image.getPixmap())
     def __open(self):
@@ -49,7 +62,7 @@ class ImageManager(QMainWindow):
         if fileName != "":
             self.image = Image(fileName)
     def __SaveAs(self):
-        fileName = QFileDialog.getOpenFileName(self, "Choose File", "")[0]
+        fileName = QFileDialog.getSaveFileName(self, "Choose File", "")[0]
         if fileName != "":
             self.image.SaveAs(fileName)
 
