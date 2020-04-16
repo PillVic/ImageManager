@@ -1,5 +1,6 @@
 from cv2 import cv2 as cv2
 from PyQt5.QtGui import QPixmap, QImage
+import pytesseract
 
 def showImage(img, title='Image'):
     cv2.namedWindow(title)
@@ -36,6 +37,10 @@ def CannyEdge(img, minVal = 50, maxVal=150):
     img = cv2.GaussianBlur(img, (3,3), 0)
     canny = cv2.Canny(img, minVal, maxVal)
     return canny
+
+def ocr(img):
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    return pytesseract.image_to_string(img_rgb)
 
 class Image():
     def __init__(self, path):
@@ -76,12 +81,6 @@ class Image():
         return QPixmap.fromImage(qimg)
 
 if __name__ == "__main__":
-    img = Image('lena.jpg')
-    #img.setImg(lambda x: ostu(x, 127, 255))
-    img.setImg(lambda x:drawRectangle(x, (60,73), (451,275), (255,255,255)))
-    image = img.getImg()
-    neoimage = cutImage(image, (60,73), (451,275))
-    img.SaveAs("SelectedImage.jpg")
-    img.setImg(lambda x:neoimage)
-    img.SaveAs("cutImage.jpg")
+    img = Image("example/test-european.jpg")
+    print(ocr(img.getImg()))
     
