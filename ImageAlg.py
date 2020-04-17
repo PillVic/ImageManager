@@ -1,9 +1,11 @@
 from cv2 import cv2 as cv2
 from PyQt5.QtGui import QPixmap, QImage
 import pytesseract
+import numpy as np
 
 def showImage(img, title='Image'):
     cv2.namedWindow(title)
+    #cv2.imshow(title, cv2.resize(img, (800,600)))
     cv2.imshow(title, img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -38,6 +40,19 @@ def CannyEdge(img, minVal = 50, maxVal=150):
     canny = cv2.Canny(img, minVal, maxVal)
     return canny
 
+def RevengeColor(img):
+    return cv2.bitwise_not()
+
+def CorrectPerspective(img, pts):
+    for i in pts:
+        cv2.circle(img, i, 5, (0,0,255), -1)
+    ptsVec = np.float32(pts)
+    width = img.shape[1]
+    height = img.shape[0]
+    ptsVec2 = np.float32(((0,0), (width, 0), (0, height), (width, height)))
+    matrix = cv2.getPerspectiveTransform(ptsVec, ptsVec2)
+    result = cv2.warpPerspective(img, matrix, (width, height))
+    return result
 def ocr(img):
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     return pytesseract.image_to_string(img_rgb)
@@ -81,6 +96,11 @@ class Image():
         return QPixmap.fromImage(qimg)
 
 if __name__ == "__main__":
-    img = Image("example/test-european.jpg")
-    print(ocr(img.getImg()))
+    img = Image("example/IMG_4174.JPG")
+    img.setImg(lambda x:cv2.resize(x, (800,600)))
+    img.setImg(lambda x:CorrectPerspective(x, ((7,96), (782,9), (37,482),(786,553))))
+    img.setImg(color2gray)
+    img.SaveAs("PerspectiveAlg1.jpg")
+    #import pytesseract
+    #print(pytesseract.image_to_string(img.getImg()))
     
