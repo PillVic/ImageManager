@@ -1,14 +1,16 @@
 import sys
 from PyQt5.QtCore import pyqtSlot, QTimer
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QAction, QFileDialog, QLabel
+from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap, QImage
 from ImageAlg import *
+from ImageLabel import ImageLabel
 
 class ImageManager(QMainWindow):
     def __init__(self):
         super(ImageManager, self).__init__()
-        loadUi('MainWindow.ui', self)
+        loadUi('neoMainWindow.ui', self)
+        #loadUi('MainWindow.ui', self)
         #init UI
         #load Image
         fileName = QFileDialog.getOpenFileName(self, "Choose File", "")[0]
@@ -16,7 +18,7 @@ class ImageManager(QMainWindow):
             sys.exit()
         self.statusBar().showMessage("Open File : "+fileName)
         self.image = Image(fileName)
-        self.imageLable = self.findChild(QLabel, "imageLable")
+        self.imageLable = self.findChild(QLabel, "imageMap")
         self.imageLable.setPixmap(self.image.getPixmap())
         self.imageLable.setScaledContents(True)
         #set fresh task
@@ -24,6 +26,7 @@ class ImageManager(QMainWindow):
         self.timer.setInterval(100) #100ms 
         self.timer.start()
         self.timer.timeout.connect(self.__fresh)
+        self.curTime = self.image.getTime()
         
         #File Menu
         self.fileOpen = self.findChild(QAction, "fileOpen")
@@ -54,9 +57,15 @@ class ImageManager(QMainWindow):
         self.edgeDecButton = self.findChild(QPushButton, "edgeDecButton")
         self.edgeDecButton.clicked.connect(lambda x:self.image.setImg(CannyEdge))
 
+        self.ostuBottom = self.findChild(QSpinBox, "ostuBottom")
+        self.ostuFloor = self.findChild(QSpinBox, "ostuFloor")
+        self.ostuButton = self.findChild(QPushButton, "ostuButton")
+        self.ostuButton.clicked.connect(lambda x:self.image.setImg(lambda img: ostu(img, self.ostuBottom.value(), self.ostuFloor.value())))
+
 
     def __fresh(self):
-        self.imageLable.setPixmap(self.image.getPixmap())
+        if self.curTime != self.image.getTime():
+            self.imageLable.setPixmap(self.image.getPixmap())
     def __open(self):
         fileName = QFileDialog.getOpenFileName(self, "Choose File", "")[0]
         if fileName != "":

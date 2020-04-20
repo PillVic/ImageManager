@@ -2,6 +2,7 @@ from cv2 import cv2 as cv2
 from PyQt5.QtGui import QPixmap, QImage
 import pytesseract
 import numpy as np
+import time
 
 def showImage(img, title='Image'):
     cv2.namedWindow(title)
@@ -19,6 +20,12 @@ def ostu(img, bottom=127, head=255):
     img = color2gray(img)
     res, thresh1 = cv2.threshold(img, bottom, head, cv2.THRESH_BINARY)
     return thresh1
+
+def drawPoly(img, pts, color=(255,255,255)):
+    color=((0,0,0), (255,0,0), (0,255,0), (0,0,255))
+    for i in range(4):
+        cv2.line(img, pts[i], pts[(i+1)%4],color[i], 2)
+    return img
 
 def drawRectangle(img, point1, point2, color=(255,255,255)):
     #to show the selected image content
@@ -46,6 +53,7 @@ def RevengeColor(img):
 def CorrectPerspective(img, pts):
     for i in pts:
         cv2.circle(img, i, 5, (0,0,255), -1)
+    return img
     ptsVec = np.float32(pts)
     width = img.shape[1]
     height = img.shape[0]
@@ -63,6 +71,7 @@ class Image():
         self.__path = path
         self.__history = []
         self.count = 1
+        self.curTime = str(time.time())
     def Save(self):
         cv2.imwrite(self.__path, self.__img)
     def SaveAs(self, newPath):
@@ -77,7 +86,11 @@ class Image():
     def setImg(self, transform):
         self.__history.append(self.__img)
         self.__img = transform(self.__img)
+        self.curTime = time.time()
+    def getTime(self):
+        return self.curTime
     def undoImg(self):
+        self.curTime = str(time.time())
         print("有生之年")
         self.count  +=1
         if len(self.__history) != 0:
@@ -96,11 +109,8 @@ class Image():
         return QPixmap.fromImage(qimg)
 
 if __name__ == "__main__":
-    img = Image("example/IMG_4174.JPG")
-    img.setImg(lambda x:cv2.resize(x, (800,600)))
-    img.setImg(lambda x:CorrectPerspective(x, ((7,96), (782,9), (37,482),(786,553))))
-    img.setImg(color2gray)
-    img.SaveAs("PerspectiveAlg1.jpg")
-    #import pytesseract
-    #print(pytesseract.image_to_string(img.getImg()))
-    
+    img = Image("lena.jpg")
+    pts = [(10,100),(40,200), (205,400), (350,300)]
+    pts.sort(key=lambda x: (x[0], x[1]))
+    img.setImg(lambda img:drawPoly(img, pts))
+    showImage(img.getImg())
