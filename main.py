@@ -18,9 +18,9 @@ class ImageManager(QMainWindow):
             sys.exit()
         self.statusBar().showMessage("Open File : "+fileName)
         self.image = Image(fileName)
-        self.imageLable = self.findChild(QLabel, "imageMap")
-        self.imageLable.setPixmap(self.image.getPixmap())
-        self.imageLable.setScaledContents(True)
+        self.imageMap = self.findChild(ImageLabel, "imageMap")
+        self.imageMap.setPixmap(self.image.getPixmap())
+        self.imageMap.setScaledContents(True)
         #set fresh task
         self.timer = QTimer(self)
         self.timer.setInterval(100) #100ms 
@@ -62,10 +62,16 @@ class ImageManager(QMainWindow):
         self.ostuButton = self.findChild(QPushButton, "ostuButton")
         self.ostuButton.clicked.connect(lambda x:self.image.setImg(lambda img: ostu(img, self.ostuBottom.value(), self.ostuFloor.value())))
 
-
+        self.handleSelectButton = self.findChild(QPushButton, "handleSelectButton")
+        self.handleSelectButton.clicked.connect(self.__handleSelect)
+        self.imageMap.polyDone.connect(self.__drawPoly)
+        
+    def __drawPoly(self):
+        self.pts = self.imageMap.getPts()
+        self.image.setImg(lambda img:drawPoly(img, self.pts))
     def __fresh(self):
         if self.curTime != self.image.getTime():
-            self.imageLable.setPixmap(self.image.getPixmap())
+            self.imageMap.setPixmap(self.image.getPixmap())
     def __open(self):
         fileName = QFileDialog.getOpenFileName(self, "Choose File", "")[0]
         if fileName != "":
@@ -74,6 +80,8 @@ class ImageManager(QMainWindow):
         fileName = QFileDialog.getSaveFileName(self, "Choose File", "")[0]
         if fileName != "":
             self.image.SaveAs(fileName)
+    def __handleSelect(self):
+        self.imageMap.setPoly()
 
 
 
