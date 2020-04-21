@@ -7,6 +7,7 @@ from ImageAlg import *
 from ImageLabel import ImageLabel
 
 class ImageManager(QMainWindow):
+    pts = []
     def __init__(self):
         super(ImageManager, self).__init__()
         loadUi('neoMainWindow.ui', self)
@@ -65,9 +66,16 @@ class ImageManager(QMainWindow):
         self.handleSelectButton = self.findChild(QPushButton, "handleSelectButton")
         self.handleSelectButton.clicked.connect(self.__handleSelect)
         self.imageMap.polyDone.connect(self.__drawPoly)
+
         
     def __drawPoly(self):
-        self.pts = self.imageMap.getPts()
+        self.pts.clear()
+        w, h = self.image.getWidth(), self.image.getHeight()
+        points = self.imageMap.getPts()
+        #change the locate to image locate
+        for i in points:
+            point = int(i[0]*w/512), int(i[1]*h/649)
+            self.pts.append(point)
         self.image.setImg(lambda img:drawPoly(img, self.pts))
     def __fresh(self):
         if self.curTime != self.image.getTime():
