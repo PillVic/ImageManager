@@ -21,7 +21,7 @@ def ostu(img, bottom=127, head=255):
     res, thresh1 = cv2.threshold(img, bottom, head, cv2.THRESH_BINARY)
     return thresh1
 
-def drawPoly(img, pts, color=(255,255,255)):
+def drawPoly(img, pts):
     color=((0,0,0), (255,0,0), (0,255,0), (0,0,255))
     for i in range(4):
         cv2.line(img, pts[i], pts[(i+1)%4],color[i], 2)
