@@ -51,13 +51,10 @@ def RevengeColor(img):
     return cv2.bitwise_not()
 
 def CorrectPerspective(img, pts):
-    for i in pts:
-        cv2.circle(img, i, 5, (0,0,255), -1)
-    return img
     ptsVec = np.float32(pts)
     width = img.shape[1]
     height = img.shape[0]
-    ptsVec2 = np.float32(((0,0), (width, 0), (0, height), (width, height)))
+    ptsVec2 = np.float32(((0,0), (width, 0), (width, height), (0, height)))
     matrix = cv2.getPerspectiveTransform(ptsVec, ptsVec2)
     result = cv2.warpPerspective(img, matrix, (width, height))
     return result
@@ -72,6 +69,8 @@ class Image():
         self.__history = []
         self.count = 1
         self.curTime = str(time.time())
+    def reload(self):
+        self.__img = cv2.imread(self.__path)
     def Save(self):
         cv2.imwrite(self.__path, self.__img)
     def SaveAs(self, newPath):

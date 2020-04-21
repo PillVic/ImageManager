@@ -32,6 +32,9 @@
        <property name="pixmap">
         <pixmap>lena.jpg</pixmap>
        </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>
@@ -39,9 +42,9 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="reloadButton">
            <property name="text">
-            <string>Select</string>
+            <string>Reload</string>
            </property>
           </widget>
          </item>
@@ -124,7 +127,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_6">
+          <widget class="QPushButton" name="correctButton">
            <property name="text">
             <string>correct</string>
            </property>
@@ -177,8 +180,8 @@
      <string>Image Edit</string>
     </property>
     <addaction name="actionUndo"/>
-    <addaction name="actionchange_to_gray"/>
-    <addaction name="actionCanny_Edge_Detect"/>
+    <addaction name="actionChange2Gray"/>
+    <addaction name="actionCannyEdgeDetect"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImage_Edit"/>
@@ -204,19 +207,19 @@
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionchange_to_gray">
+  <action name="actionChange2Gray">
    <property name="text">
     <string>change to gray</string>
    </property>
   </action>
-  <action name="actionCanny_Edge_Detect">
+  <action name="actionCannyEdgeDetect">
    <property name="text">
     <string>Canny Edge Detect</string>
    </property>
   </action>
   <action name="actionUndo">
    <property name="text">
-    <string>undo</string>
+    <string>Reload</string>
    </property>
   </action>
  </widget>

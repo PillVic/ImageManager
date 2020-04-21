@@ -11,7 +11,7 @@ class ImageLabel(QLabel):
         if self.getPoly == False:
             return
         self.pts.append(point)
-        print(point)
+        print(self.pts)
         if len(self.pts) == 4 and self.getPoly:
             self.getPoly = False
             self.polyDone.emit("points get")

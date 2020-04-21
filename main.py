@@ -44,12 +44,17 @@ class ImageManager(QMainWindow):
         #Edit Menu
         self.actionUndo = self.findChild(QAction, "actionUndo")
         self.actionUndo.triggered.connect(self.image.undoImg)
+        self.actionChange2Gray = self.findChild(QAction, "actionChange2Gray")
+        self.actionChange2Gray.triggered.connect(lambda x:self.image.setImg(color2gray))
+        self.actionCannyEdgeDetect = self.findChild(QAction, "actionCannyEdgeDetect")
+        self.actionCannyEdgeDetect.triggered.connect(lambda x:self.image.setImg(CannyEdge))
 
         #button set
         self.undoButton = self.findChild(QPushButton, "undoButton")
         self.undoButton.clicked.connect(self.image.undoImg)
 
-        self.selectButton = self.findChild(QPushButton, "selectButton")
+        self.reloadButton = self.findChild(QPushButton, "reloadButton")
+        self.reloadButton.clicked.connect(self.image.reload)
         #fixme
 
         self.grayButton = self.findChild(QPushButton, "grayButton")
@@ -64,17 +69,18 @@ class ImageManager(QMainWindow):
         self.ostuButton.clicked.connect(lambda x:self.image.setImg(lambda img: ostu(img, self.ostuBottom.value(), self.ostuFloor.value())))
 
         self.handleSelectButton = self.findChild(QPushButton, "handleSelectButton")
-        self.handleSelectButton.clicked.connect(self.__handleSelect)
+        self.handleSelectButton.clicked.connect(self.imageMap.setPoly)
         self.imageMap.polyDone.connect(self.__drawPoly)
+        self.correctButton = self.findChild(QPushButton, "correctButton")
+        self.correctButton.clicked.connect(lambda x:self.image.setImg(lambda img:CorrectPerspective(img, self.pts)))
 
         
     def __drawPoly(self):
         self.pts.clear()
         w, h = self.image.getWidth(), self.image.getHeight()
         points = self.imageMap.getPts()
-        #change the locate to image locate
         for i in points:
-            point = int(i[0]*w/512), int(i[1]*h/649)
+            point = int(i[0]*w/self.imageMap.height()), int(i[1]*h/self.imageMap.width())
             self.pts.append(point)
         self.image.setImg(lambda img:drawPoly(img, self.pts))
     def __fresh(self):
@@ -88,8 +94,6 @@ class ImageManager(QMainWindow):
         fileName = QFileDialog.getSaveFileName(self, "Choose File", "")[0]
         if fileName != "":
             self.image.SaveAs(fileName)
-    def __handleSelect(self):
-        self.imageMap.setPoly()
 
 
 
