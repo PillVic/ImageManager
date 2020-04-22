@@ -77,9 +77,9 @@ class Image():
     def getPath(self):
         return self.__path
     def getWidth(self):
-        return self.__img.shape[0]
-    def getHeight(self):
         return self.__img.shape[1]
+    def getHeight(self):
+        return self.__img.shape[0]
     def getImg(self):
         return self.__img
     def setImg(self, transform):
