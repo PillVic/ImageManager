@@ -69,13 +69,13 @@ class Image():
         self.__history = []
         self.count = 1
         self.curTime = str(time.time())
-    def reload(self):
-        self.__img = cv2.imread(self.__path)
     def Save(self):
         cv2.imwrite(self.__path, self.__img)
     def SaveAs(self, newPath):
         cv2.imwrite(newPath, self.__img)
         self.__path = newPath
+    def getPath(self):
+        return self.__path
     def getWidth(self):
         return self.__img.shape[0]
     def getHeight(self):

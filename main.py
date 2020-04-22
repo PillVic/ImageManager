@@ -54,7 +54,7 @@ class ImageManager(QMainWindow):
         self.undoButton.clicked.connect(self.image.undoImg)
 
         self.reloadButton = self.findChild(QPushButton, "reloadButton")
-        self.reloadButton.clicked.connect(self.image.reload)
+        self.reloadButton.clicked.connect(self.__reload)
         #fixme
 
         self.grayButton = self.findChild(QPushButton, "grayButton")
@@ -74,13 +74,15 @@ class ImageManager(QMainWindow):
         self.correctButton = self.findChild(QPushButton, "correctButton")
         self.correctButton.clicked.connect(lambda x:self.image.setImg(lambda img:CorrectPerspective(img, self.pts)))
 
-        
+    def __reload(self):
+        path = self.image.getPath()
+        self.image = Image(path)
     def __drawPoly(self):
         self.pts.clear()
         w, h = self.image.getWidth(), self.image.getHeight()
         points = self.imageMap.getPts()
         for i in points:
-            point = int(i[0]*w/self.imageMap.height()), int(i[1]*h/self.imageMap.width())
+            point = int(i[0]*w/self.imageMap.width()), int(i[1]*h/self.imageMap.height())
             self.pts.append(point)
         self.image.setImg(lambda img:drawPoly(img, self.pts))
     def __fresh(self):
