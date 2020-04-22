@@ -3,6 +3,7 @@ from PyQt5.QtGui import QPixmap, QImage
 import pytesseract
 import numpy as np
 import time
+from collections import deque
 
 def showImage(img, title='Image'):
     cv2.namedWindow(title)
@@ -21,10 +22,11 @@ def ostu(img, bottom=127, head=255):
     return thresh1
 
 def drawPoly(img, pts):
+    neoImg = img.copy()
     color=((0,0,0), (255,0,0), (0,255,0), (0,0,255))
     for i in range(4):
-        cv2.line(img, pts[i], pts[(i+1)%4],color[i], 2)
-    return img
+        cv2.line(neoImg, pts[i], pts[(i+1)%4],color[i], 2)
+    return neoImg
 
 def drawRectangle(img, point1, point2, color=(255,255,255)):
     #to show the selected image content
@@ -65,7 +67,7 @@ class Image():
     def __init__(self, path):
         self.__img = cv2.imread(path)
         self.__path = path
-        self.__history = []
+        self.__history = deque()
         self.count = 1
         self.curTime = str(time.time())
     def Save(self):
