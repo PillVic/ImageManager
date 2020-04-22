@@ -17,7 +17,7 @@ class ImageManager(QMainWindow):
         fileName = QFileDialog.getOpenFileName(self, "Choose File", "")[0]
         if fileName == "":
             sys.exit()
-        self.statusBar().showMessage("Open File : "+fileName)
+        self.statusBar().showMessage("Image Name : "+fileName)
         self.image = Image(fileName)
         self.imageMap = self.findChild(ImageLabel, "imageMap")
         self.imageMap.setPixmap(self.image.getPixmap())
@@ -88,14 +88,17 @@ class ImageManager(QMainWindow):
     def __fresh(self):
         if self.curTime != self.image.getTime():
             self.imageMap.setPixmap(self.image.getPixmap())
+            self.curTime = self.image.getTime()
     def __open(self):
         fileName = QFileDialog.getOpenFileName(self, "Choose File", "")[0]
         if fileName != "":
             self.image = Image(fileName)
+            self.statusBar().showMessage("Image Name : "+fileName)
     def __SaveAs(self):
         fileName = QFileDialog.getSaveFileName(self, "Choose File", "")[0]
         if fileName != "":
             self.image.SaveAs(fileName)
+            self.statusBar().showMessage("Image Name : "+fileName)
 
 
 
