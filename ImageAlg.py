@@ -6,7 +6,6 @@ import time
 
 def showImage(img, title='Image'):
     cv2.namedWindow(title)
-    #cv2.imshow(title, cv2.resize(img, (800,600)))
     cv2.imshow(title, img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -60,7 +59,7 @@ def CorrectPerspective(img, pts):
     return result
 def ocr(img):
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    return pytesseract.image_to_string(img_rgb)
+    return pytesseract.image_to_string(img_rgb, lang='chi_sim')
 
 class Image():
     def __init__(self, path):

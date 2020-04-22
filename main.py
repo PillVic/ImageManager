@@ -74,6 +74,14 @@ class ImageManager(QMainWindow):
         self.correctButton = self.findChild(QPushButton, "correctButton")
         self.correctButton.clicked.connect(lambda x:self.image.setImg(lambda img:CorrectPerspective(img, self.pts)))
 
+        self.ocrButton = self.findChild(QPushButton, "ocrButton")
+        self.textEdit = self.findChild(QTextEdit, "textEdit")
+        #self.ocrText = self.findChild(QPlainTextEdit, "ocrText")
+        self.ocrButton.clicked.connect(self.ocrPrint)
+    def ocrPrint(self):
+        text = ocr(self.image.getImg())
+        self.textEdit.setText(text)
+        print(text)
     def __reload(self):
         path = self.image.getPath()
         self.image = Image(path)
