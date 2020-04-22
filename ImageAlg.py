@@ -94,8 +94,7 @@ class Image():
         print("有生之年")
         self.count  +=1
         if len(self.__history) != 0:
-            self.__img = self.__history[len(self.__history)-1]
-            self.__history.pop()
+            self.__img = self.__history.pop()
             print("爷的青春回来了"+ str(self.count))
         else:
             print("爷的青春结束了"+str(self.count))
