@@ -79,7 +79,7 @@ class ImageManager(QMainWindow):
         self.image = Image(path)
     def __drawPoly(self):
         self.pts.clear()
-        w, h = self.image.getWidth(), self.image.getHeight()
+        h, w = self.image.getWidth(), self.image.getHeight()
         points = self.imageMap.getPts()
         for i in points:
             point = int(i[0]*w/self.imageMap.width()), int(i[1]*h/self.imageMap.height())
