@@ -16,7 +16,7 @@ def color2gray(img):
         return img
     return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-def ostu(img, bottom=127, head=255):
+def binarization(img, bottom=127, head=255):
     img = color2gray(img)
     res, thresh1 = cv2.threshold(img, bottom, head, cv2.THRESH_BINARY)
     return thresh1

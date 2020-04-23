@@ -63,10 +63,10 @@ class ImageManager(QMainWindow):
         self.edgeDecButton = self.findChild(QPushButton, "edgeDecButton")
         self.edgeDecButton.clicked.connect(lambda x:self.image.setImg(CannyEdge))
 
-        self.ostuBottom = self.findChild(QSpinBox, "ostuBottom")
-        self.ostuFloor = self.findChild(QSpinBox, "ostuFloor")
-        self.ostuButton = self.findChild(QPushButton, "ostuButton")
-        self.ostuButton.clicked.connect(lambda x:self.image.setImg(lambda img: ostu(img, self.ostuBottom.value(), self.ostuFloor.value())))
+        self.binarizationBottom = self.findChild(QSpinBox, "binarizationBottom")
+        self.binarizationFloor = self.findChild(QSpinBox, "binarizationFloor")
+        self.binarizationButton = self.findChild(QPushButton, "binarizationButton")
+        self.binarizationButton.clicked.connect(lambda x:self.image.setImg(lambda img: binarization(img, self.binarizationBottom.value(), self.binarizationFloor.value())))
 
         self.handleSelectButton = self.findChild(QPushButton, "handleSelectButton")
         self.handleSelectButton.clicked.connect(self.imageMap.setPoly)
@@ -76,12 +76,10 @@ class ImageManager(QMainWindow):
 
         self.ocrButton = self.findChild(QPushButton, "ocrButton")
         self.textEdit = self.findChild(QTextEdit, "textEdit")
-        #self.ocrText = self.findChild(QPlainTextEdit, "ocrText")
         self.ocrButton.clicked.connect(self.ocrPrint)
     def ocrPrint(self):
         text = ocr(self.image.getImg())
         self.textEdit.setText(text)
-        print(text)
     def __reload(self):
         path = self.image.getPath()
         self.image = Image(path)

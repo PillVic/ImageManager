@@ -80,7 +80,7 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_10">
            <item>
-            <widget class="QSpinBox" name="ostuBottom">
+            <widget class="QSpinBox" name="binarizationBottom">
              <property name="maximum">
               <number>255</number>
              </property>
@@ -90,7 +90,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="ostuFloor">
+            <widget class="QSpinBox" name="binarizationFloor">
              <property name="maximum">
               <number>255</number>
              </property>
@@ -100,9 +100,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="ostuButton">
+            <widget class="QPushButton" name="binarizationButton">
              <property name="text">
-              <string>OSTU</string>
+              <string>BinarizationButton</string>
              </property>
             </widget>
            </item>
