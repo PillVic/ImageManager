@@ -18,7 +18,8 @@ def color2gray(img):
 
 def binarization(img, bottom=127, head=255):
     img = color2gray(img)
-    res, thresh1 = cv2.threshold(img, bottom, head, cv2.THRESH_BINARY)
+    blur = cv2.GaussianBlur(img, (5,5), 0)
+    res, thresh1 = cv2.threshold(blur, bottom, head, cv2.THRESH_OTSU)
     return thresh1
 
 def drawPoly(img, pts):
