@@ -4,6 +4,7 @@ import pytesseract
 import numpy as np
 import time
 from collections import deque
+from baiduocr import neoOcr
 
 def showImage(img, title='Image'):
     cv2.namedWindow(title)
@@ -20,6 +21,7 @@ def binarization(img, bottom=127, head=255):
     img = color2gray(img)
     blur = cv2.GaussianBlur(img, (5,5), 0)
     res, thresh1 = cv2.threshold(blur, bottom, head, cv2.THRESH_OTSU)
+    #thresh1 = cv2.adaptiveThreshold(img, head, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,7,5)
     return thresh1
 
 def drawPoly(img, pts):
@@ -62,7 +64,8 @@ def CorrectPerspective(img, pts):
     return result
 def ocr(img):
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    return pytesseract.image_to_string(img_rgb, lang='chi_sim')
+    #return pytesseract.image_to_string(img_rgb, lang='chi_sim')
+    return neoOcr(img)
 
 class Image():
     def __init__(self, path):
