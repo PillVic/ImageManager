@@ -90,7 +90,7 @@ class Image():
     def setImg(self, transform):
         self.__history.append(self.__img)
         self.__img = transform(self.__img)
-        self.curTime = time.time()
+        self.curTime = str(time.time())
     def getTime(self):
         return self.curTime
     def undoImg(self):
