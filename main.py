@@ -14,11 +14,7 @@ class ImageManager(QMainWindow):
         #loadUi('MainWindow.ui', self)
         #init UI
         #load Image
-        fileName = QFileDialog.getOpenFileName(self, "Choose File", "")[0]
-        if fileName == "":
-            sys.exit()
-        self.statusBar().showMessage("Image Name : "+fileName)
-        self.image = Image(fileName)
+        self.__open()
         self.imageMap = self.findChild(ImageLabel, "imageMap")
         self.imageMap.setPixmap(self.image.getPixmap())
         self.imageMap.setScaledContents(True)
@@ -100,6 +96,9 @@ class ImageManager(QMainWindow):
         if fileName != "":
             self.image = Image(fileName)
             self.statusBar().showMessage("Image Name : "+fileName)
+            height = self.image.getHeight()
+            width = self.image.getWidth()
+            self.pts = [(0,0), (width, 0), (width, height), (0, height)]
     def __SaveAs(self):
         fileName = QFileDialog.getSaveFileName(self, "Choose File", "")[0]
         if fileName != "":
