@@ -12,6 +12,24 @@ def showImage(img, title='Image'):
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+def whiteBalance(img):
+    r,g,b = cv2.split(img)
+    r_avg = cv2.mean(r)[0]
+    g_avg = cv2.mean(g)[0]
+    b_avg = cv2.mean(b)[0]
+
+    k = (r_avg+g_avg+b_avg)/3
+    kr = k/r_avg
+    kg = k/g_avg
+    kb = k/b_avg
+
+    r = cv2.addWeighted(src1=r, alpha=kr, src2=0, beta=0, gamma=0)
+    g = cv2.addWeighted(src1=g, alpha=kg, src2=0, beta=0, gamma=0)
+    b = cv2.addWeighted(src1=b, alpha=kb, src2=0, beta=0, gamma=0)
+
+    balanceImg = cv2.merge([b,g,r])
+    return balanceImg
+
 def color2gray(img):
     if len(img.shape) == 2:
         return img
@@ -19,8 +37,14 @@ def color2gray(img):
 
 def binarization(img, bottom=127, head=255):
     img = color2gray(img)
-    blur = cv2.GaussianBlur(img, (5,5), 0)
-    res, thresh1 = cv2.threshold(blur, bottom, head, cv2.THRESH_OTSU)
+    #given code
+    img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    blur_img = cv2.GaussianBlur(img, (0,0), 25)
+    usm = cv2.addWeighted(img, 1.5, blur_img, -0.5, 0)
+    img = cv2.cvtColor(usm, cv2.COLOR_BGR2GRAY)
+    #
+    #blur = cv2.GaussianBlur(img, (5,5), 0)
+    res, thresh1 = cv2.threshold(img, bottom, head, cv2.THRESH_OTSU)
     #thresh1 = cv2.adaptiveThreshold(img, head, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,7,5)
     return thresh1
 
@@ -112,8 +136,9 @@ class Image():
         return QPixmap.fromImage(qimg)
 
 if __name__ == "__main__":
-    img = Image("lena.jpg")
-    pts = [(10,100),(40,200), (205,400), (350,300)]
-    pts.sort(key=lambda x: (x[0], x[1]))
-    img.setImg(lambda img:drawPoly(img, pts))
-    showImage(img.getImg())
+    img = Image('example/6147.JPG')
+    #
+    #
+    img.setImg(lambda img:binarization(img, 0, 255))
+    #showImage(img.getImg())
+    img.SaveAs('b.jpg')
