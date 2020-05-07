@@ -1,6 +1,5 @@
 from cv2 import cv2 as cv2
 from PyQt5.QtGui import QPixmap, QImage
-import pytesseract
 import numpy as np
 import time
 from collections import deque
@@ -38,15 +37,33 @@ def color2gray(img):
 def binarization(img, bottom=127, head=255):
     img = color2gray(img)
     #given code
-    img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-    blur_img = cv2.GaussianBlur(img, (0,0), 25)
-    usm = cv2.addWeighted(img, 1.5, blur_img, -0.5, 0)
-    img = cv2.cvtColor(usm, cv2.COLOR_BGR2GRAY)
+    #img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    #blur_img = cv2.GaussianBlur(img, (0,0), 25)
+    #usm = cv2.addWeighted(img, 1.5, blur_img, -0.5, 0)
+    #img = cv2.cvtColor(usm, cv2.COLOR_BGR2GRAY)
     #
     #blur = cv2.GaussianBlur(img, (5,5), 0)
     res, thresh1 = cv2.threshold(img, bottom, head, cv2.THRESH_OTSU)
     #thresh1 = cv2.adaptiveThreshold(img, head, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,7,5)
     return thresh1
+
+def erosion(img):
+    kernel = np.ones((5,5), np.uint8)
+    return cv2.erode(img, kernel,iterations=1)
+
+def dilation(img):
+    kernel = np.ones((5,5), np.uint8)
+    return cv2.dilate(img, kernel,iterations=1)
+
+def addWeighted(img):
+#    img = color2gray(img)
+#    img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+#    blur_img = cv2.GaussianBlur(img, (0,0), 25)
+#    usm = cv2.addWeighted(img, 1.5, blur_img, -0.5, 0)
+#    img = cv2.cvtColor(usm, cv2.COLOR_BGR2GRAY)
+#    return img
+    kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]], np.float32) #锐化
+    return cv2.filter2D(img, -1, kernel=kernel)
 
 def drawPoly(img, pts):
     neoImg = img.copy()
@@ -136,9 +153,7 @@ class Image():
         return QPixmap.fromImage(qimg)
 
 if __name__ == "__main__":
-    img = Image('example/6147.JPG')
-    #
-    #
-    img.setImg(lambda img:binarization(img, 0, 255))
-    #showImage(img.getImg())
-    img.SaveAs('b.jpg')
+    img = Image('lena.jpg')
+    img.setImg(addWeighted)
+    showImage(img.getImg())
+    #img.SaveAs('b.jpg')
