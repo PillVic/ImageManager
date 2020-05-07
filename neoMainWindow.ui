@@ -76,6 +76,31 @@
         </layout>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QPushButton" name="erosionButton">
+           <property name="text">
+            <string>erosion</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="dilationButton">
+           <property name="text">
+            <string>dilation</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="addWeightedButton">
+           <property name="text">
+            <string>addWeighted</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
           <widget class="QPushButton" name="edgeDecButton">
@@ -124,9 +149,26 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QSpinBox" name="angle">
+             <property name="maximum">
+              <number>360</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="rotateButton">
+             <property name="text">
+              <string>rotate</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QTextEdit" name="textEdit"/>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_11">
@@ -152,9 +194,6 @@
           </widget>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QTextEdit" name="textEdit"/>
        </item>
       </layout>
      </item>

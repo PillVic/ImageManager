@@ -55,9 +55,18 @@ class ImageManager(QMainWindow):
         self.undoButton = self.findChild(QPushButton, "undoButton")
         self.undoButton.clicked.connect(self.image.undoImg)
 
+
         self.reloadButton = self.findChild(QPushButton, "reloadButton")
         self.reloadButton.clicked.connect(self.__reload)
-        #fixme
+
+        self.erosionButton = self.findChild(QPushButton, "erosionButton")
+        self.erosionButton.clicked.connect(lambda x:self.image.setImg(erosion))
+
+        self.dilationButton = self.findChild(QPushButton, "dilationButton")
+        self.dilationButton.clicked.connect(lambda x:self.image.setImg(dilation))
+
+        self.addWeightedButton = self.findChild(QPushButton, "addWeightedButton")
+        self.addWeightedButton.clicked.connect(lambda x:self.image.setImg(addWeighted))
 
         self.grayButton = self.findChild(QPushButton, "grayButton")
         self.grayButton.clicked.connect(lambda x:self.image.setImg(color2gray))
@@ -69,6 +78,10 @@ class ImageManager(QMainWindow):
         self.binarizationFloor = self.findChild(QSpinBox, "binarizationFloor")
         self.binarizationButton = self.findChild(QPushButton, "binarizationButton")
         self.binarizationButton.clicked.connect(lambda x:self.image.setImg(lambda img: binarization(img, self.binarizationBottom.value(), self.binarizationFloor.value())))
+
+        self.angle = self.findChild(QSpinBox, "angle")
+        self.rotateButton = self.findChild(QPushButton, "rotateButton")
+        self.rotateButton.clicked.connect(lambda x:self.image.setImg(lambda img:CounterClockwiseRotate(img, self.angle.value())))
 
         self.handleSelectButton = self.findChild(QPushButton, "handleSelectButton")
         self.handleSelectButton.clicked.connect(self.imageMap.setPoly)
