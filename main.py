@@ -24,7 +24,7 @@ class ImageManager(QMainWindow):
         self.timer.start()
         self.timer.timeout.connect(self.__fresh)
         self.curTime = self.image.getTime()
-        
+
         #File Menu
         self.fileOpen = self.findChild(QAction, "fileOpen")
         self.fileOpen.triggered.connect(self.__open)
@@ -46,6 +46,12 @@ class ImageManager(QMainWindow):
         self.actionCannyEdgeDetect.triggered.connect(lambda x:self.image.setImg(CannyEdge))
 
         #button set
+        self.openButton = self.findChild(QPushButton, "openButton")
+        self.openButton.clicked.connect(self.__open)
+
+        self.saveButton = self.findChild(QPushButton, "saveButton")
+        self.saveButton.clicked.connect(self.__SaveAs)
+
         self.undoButton = self.findChild(QPushButton, "undoButton")
         self.undoButton.clicked.connect(self.image.undoImg)
 

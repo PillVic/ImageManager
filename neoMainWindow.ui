@@ -40,6 +40,24 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="openButton">
+           <property name="text">
+            <string>Open</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="saveButton">
+           <property name="text">
+            <string>Save</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
           <widget class="QPushButton" name="reloadButton">
@@ -62,14 +80,14 @@
          <item>
           <widget class="QPushButton" name="edgeDecButton">
            <property name="text">
-            <string>Canny edge Detect</string>
+            <string>Edge Detect</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="grayButton">
            <property name="text">
-            <string>change color to gray</string>
+            <string>color to gray</string>
            </property>
           </widget>
          </item>
@@ -102,7 +120,7 @@
            <item>
             <widget class="QPushButton" name="binarizationButton">
              <property name="text">
-              <string>BinarizationButton</string>
+              <string>Binarization</string>
              </property>
             </widget>
            </item>
@@ -115,21 +133,21 @@
          <item>
           <widget class="QPushButton" name="handleSelectButton">
            <property name="text">
-            <string>handle select</string>
+            <string>select</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="correctButton">
            <property name="text">
-            <string>correct</string>
+            <string>transform</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="ocrButton">
            <property name="text">
-            <string>OCR Algorithm</string>
+            <string>OCR</string>
            </property>
           </widget>
          </item>
